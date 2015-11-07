@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sortable</title>
+        <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.9.custom.css">
+        <link rel="stylesheet" href="css/sortableHandles.css">
+	</head>
+	<body>
+        <div id="sortables" class="ui-widget">
+            <div class="ui-widget-header ui-corner-all">Sortable 1<span class="ui-icon ui-icon-triangle-2-n-s"></span></div>
+            <div class="ui-widget-header ui-corner-all">Sortable 2<span class="ui-icon ui-icon-triangle-2-n-s"></span></div>
+            <div class="ui-widget-header ui-corner-all">Sortable 3<span class="ui-icon ui-icon-triangle-2-n-s"></span></div>
+            <div class="ui-widget-header ui-corner-all">Sortable 4<span class="ui-icon ui-icon-triangle-2-n-s"></span></div>
+            <div class="ui-widget-header ui-corner-all">Sortable 5<span class="ui-icon ui-icon-triangle-2-n-s"></span></div>
+        </div>
+        <script src="development-bundle/jquery-1.4.4.js"></script>
+        <script src="development-bundle/ui/jquery.ui.core.js"></script>
+        <script src="development-bundle/ui/jquery.ui.widget.js"></script>
+        <script src="development-bundle/ui/jquery.ui.mouse.js"></script>
+        <script src="development-bundle/ui/jquery.ui.sortable.js"></script>
+        <script>
+			(function($){
+				var sortOpts = {
+					revert: "slow",
+					handle: "span",
+					delay: 1000,
+					opacity: ".5"
+				};
+				
+				$("#sortables").sortable(sortOpts);
+			})(jQuery);
+		</script>
+	</body>
+</html>
