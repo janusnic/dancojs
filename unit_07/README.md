@@ -1089,7 +1089,7 @@ $("#myAccordion").accordion(accOpts);
 
 
 ```
-Навигация 14
+#### Навигация 14
 
 Если этот параметр включен, то вкладки аккордеона можно будет открывать по принципу якорей. Если вы хотите самостоятельно обрабатывать ситуацию и принимать решение, о том, какая вкладка должна быть открыта, используйте параметр navigationFilter.
 ```
@@ -1523,8 +1523,10 @@ $("#myAccordion").accordion(accOpts);
                 $("#myDialog").dialog(dialogOpts); 
             })(jQuery); 
 ```
-## Анимация 7
-```<script src="development-bundle/external/jquery.bgiframe-2.1.2.js"></script> 
+#### Анимация 7
+
+```
+<script src="development-bundle/external/jquery.bgiframe-2.1.2.js"></script> 
             (function($){ 
                 var dialogOpts = { 
                     show: true, 
@@ -1545,7 +1547,7 @@ Configuring the dialog's dimensions 8
                 $("#myDialog").dialog(dialogOpts); 
             })(jQuery); 
 ```
-## Stacking 9
+#### Stacking 9
 ```
             (function($){                
                 $("#dialog1, #dialog2").dialog(); 
