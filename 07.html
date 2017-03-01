@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Cart</title>
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css" />
+
+</head>
+<body>
+<div class="container-fluid">
+
+  <!-- Navigation -->
+  <div class="row navigation">
+    <div class="logo">
+     LOGO
+    </div>
+  <!-- Mini Cart Starts Here -->
+    <div class="mini-cart">
+      <button class="btn btn-default mini-cart-button"><span class="glyphicon glyphicon-shopping-cart"></span></button>
+    </div>
+    <div class="mini-cart-container">
+      <div class="mini-cart-items">
+        <ul>
+        </ul>
+        <div class="mini-cart-totals">
+          <div id="total-price">
+            <p>Total Price</p>
+            <span> $0.0 </span>
+          </div>
+          <div id="total-items">
+            <p>Total Items</p>
+            <span> 0 </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Mini Cart Ends Here -->
+
+  </div>
+
+    <!-- Product Grid -->
+    <div class="row product-grid">
+
+      <!-- START The Product Item -->
+      <div class="col-md-4 col-sm-4 grid-item">
+        <img src="images/1.jpg" alt="" />
+        <h1 class="product-title">Watche 1</h1>
+        <h3 class="product-price">$120.99</h3>
+        <div class="quantity-input">
+          <input class="minus btn" type="button" value="-">
+          <input id="text_1" value="1" class="input-text qty text" size="4"/>
+          <input class="plus btn" type="button" value="+">
+        </div>
+        <button class="btn btn-success add-to-cart-button" rel="watche_1" product="Watche 1" sel="120.99"><span class="glyphicon glyphicon-ok"></span> Add to Cart</button>
+      </div>
+      <!-- END!! The Product Item -->
+
+      <!-- START The Product Item -->
+      <div class="col-md-4 col-sm-4 grid-item">
+        <img src="images/2.jpg" alt="" />
+        <h1 class="product-title">Watche 2</h1>
+        <h3 class="prodcut-price">$199.99</h3>
+        <div class="quantity-input">
+          <input class="minus btn" type="button" value="-">
+          <input id="text_2" value="1" class="input-text qty text" size="4"/>
+          <input class="plus btn" type="button" value="+">
+        </div>
+        <button class="btn btn-success add-to-cart-button" rel="watche_2" product="Watche 2" sel="199.99"><span class="glyphicon glyphicon-ok"></span> Add to Cart</button>
+      </div>
+      <!-- END!! The Product Item -->
+
+      <!-- START The Product Item -->
+      <div class="col-md-4 col-sm-4 grid-item">
+        <img src="images/3.jpg" alt="" />
+        <h1 class="product-title">Watche 3</h1>
+        <h3 class="prodcut-price">$240.99</h3>
+        <div class="quantity-input">
+          <input class="minus btn" type="button" value="-">
+          <input id="text_3" value="1" class="input-text qty text" size="4"/>
+          <input class="plus btn" type="button" value="+">
+        </div>
+        <button class="btn btn-success add-to-cart-button" rel="watche_3" product="Watche 3" sel="240.99" ><span class="glyphicon glyphicon-ok"></span> Add to Cart</button>
+      </div>
+    </div>
+
+</div>
+
+<script>
+
+
+window.onload = function(){
+
+ document.querySelector('.mini-cart-button').addEventListener('click', function(){
+     document.querySelector('.mini-cart-container').classList.toggle('mini-cart-open');
+ });
+
+var plus = document.getElementsByClassName('plus');
+ for (var i=0;i<plus.length; i++) {
+     plus[i].addEventListener('click', function(e) {
+     var val = parseInt(e.target.previousElementSibling.getAttribute('value'));
+     e.target.previousElementSibling.setAttribute('value', val+1);
+     });
+ }
+
+ var minus = document.getElementsByClassName('minus');
+  for (var i=0;i<minus.length; i++) {
+      minus[i].addEventListener('click', function(e) {
+      var val = parseInt(e.target.nextElementSibling.getAttribute('value'));
+      e.target.nextElementSibling.setAttribute('value', val-1);
+      });
+  }
+
+  var addToCart = document.getElementsByClassName('add-to-cart-button');
+
+  for (var i=0;i<addToCart.length; i++) {
+      addToCart[i].addEventListener('click', function(e) {
+      var val = this.getAttribute("rel");
+      var price = this.getAttribute('sel');
+      var qty = this.parentNode.querySelector(".quantity-input").getElementsByClassName('qty')[0].getAttribute('value');
+
+      var productName =this.getAttribute('product');
+
+      if(document.getElementById("price_"+val))
+      {
+        var new_val = parseFloat(document.getElementById("price_"+val).innerHTML);
+        new_val +=(parseFloat(qty)*parseFloat(price));
+
+        document.querySelector("span#price_"+val).innerHTML = new_val.toFixed(2);
+
+        var new_qty_val = parseFloat(document.getElementById("qty_"+val).innerHTML);
+        new_qty_val +=parseFloat(qty);
+        document.getElementById("qty_"+val).innerHTML = new_qty_val;
+      }else{
+        document.querySelector('.mini-cart-items ul').append(createCartItem(val, productName, price, qty));
+      };
+
+      var totalPrice = 0.0;
+
+      var els = document.getElementsByClassName("item-prices");
+
+        Array.prototype.forEach.call(els, function(el) {
+            totalPrice += parseFloat(el.innerHTML);
+        });
+
+        document.getElementById('total-price').querySelector('span').innerHTML = totalPrice.toFixed(2);
+
+       var totalQty = 0;
+       var qels = document.getElementsByClassName("item-quantities");
+
+         Array.prototype.forEach.call(qels, function(el) {
+             totalQty += parseFloat(el.innerHTML);
+         });
+         document.getElementById('total-items').querySelector('span').innerHTML = totalQty.toFixed(0);
+      });
+
+  };
+  function createCartItem(val, productName, price, qty){
+      var li = document.createElement('li');
+      li.setAttribute('id',val);
+      var h3 = document.createElement('h3');
+      h3.innerHTML = productName+'<br/>'+'<span class="item-prices" id="price_'+val+'">'+price+'<span>';
+      var span = document.createElement('span');
+      span.setAttribute('class',"item-quantities");
+      span.setAttribute('id',"qty_"+val);
+      span.innerHTML = qty;
+      li.append(h3);
+      li.append(span);
+      return li;
+  }
+};
+
+</script>
+</body>
+
+</html>
