@@ -91,7 +91,7 @@
             <img src="images/2.jpg" alt="" />
             <img src="images/3.jpg" alt="" />
         </div>
-        <div class="images-wrapper">
+        <div class="images-wrapper" index=0>
             <div class="controls">
                 <div class="prev-arrow prev">&lt;</div>
                 <div class="next-arrow next">&gt;</div>
@@ -110,7 +110,19 @@
 
       <!-- START The Product Item -->
       <div class="col-md-4 col-sm-4 grid-item">
-        <img src="images/2.jpg" alt="" />
+
+        <div class="carousel">
+            <img src="images/2.jpg" alt="" />
+            <img src="images/1.jpg" alt="" />
+            <img src="images/3.jpg" alt="" />
+        </div>
+        <div class="images-wrapper" index=1>
+            <div class="controls">
+                <div class="prev-arrow prev">&lt;</div>
+                <div class="next-arrow next">&gt;</div>
+            </div>
+        </div>
+
         <h1 class="product-title">Watche 2</h1>
         <h3 class="prodcut-price">$199.99</h3>
         <div class="quantity-input">
@@ -124,7 +136,18 @@
 
       <!-- START The Product Item -->
       <div class="col-md-4 col-sm-4 grid-item">
-        <img src="images/3.jpg" alt="" />
+
+        <div class="carousel">
+            <img src="images/3.jpg" alt="" />
+            <img src="images/2.jpg" alt="" />
+            <img src="images/1.jpg" alt="" />
+        </div>
+        <div class="images-wrapper" index=2>
+            <div class="controls">
+                <div class="prev-arrow prev">&lt;</div>
+                <div class="next-arrow next">&gt;</div>
+            </div>
+        </div>
         <h1 class="product-title">Watche 3</h1>
         <h3 class="prodcut-price">$240.99</h3>
         <div class="quantity-input">
@@ -135,7 +158,6 @@
         <button class="btn btn-success add-to-cart-button" rel="watche_3" product="Watche 3" sel="240.99" ><span class="glyphicon glyphicon-ok"></span> Add to Cart</button>
       </div>
     </div>
-
 
 </div>
 
@@ -165,54 +187,68 @@ var plus = document.getElementsByClassName('plus');
   }
 
   var carousel = document.getElementsByClassName('carousel');
-  var childNodes = carousel[0].childNodes;
 
   var prevArrow = document.getElementsByClassName('prev');
   var nextArrow = document.getElementsByClassName('next');
 
+  var imagesWrapper = document.getElementsByClassName('images-wrapper');
 
   var imagesArray = [];
+  var numberOfImages = [];
 
-  for (var i = 0; i < childNodes.length; i++) {
-      var currentNode = childNodes[i];
-      if (currentNode.nodeName === 'IMG') {
-          imagesArray.push(currentNode.src);
-          currentNode.classList.add('hide');
-      }
-  }
+  for (var i=0; i<carousel.length; i++){
 
-  var currentImage = 0;
-  var imagesWrapper = document.getElementsByClassName('images-wrapper');
-  imagesWrapper[0].style.backgroundImage = 'url(' + imagesArray[0] + ')';
-  var numberOfImages = imagesArray.length;
+      var childNodes = carousel[i].childNodes;
+      imagesArray[i] = [];
 
-  prevArrow[0].addEventListener('click', function () {
-      handleSlideshowArrow('prev');
-  });
-
-  nextArrow[0].addEventListener('click',  function () {
-      handleSlideshowArrow('next');
-  });
-
-  function handleSlideshowArrow(val) {
-      if (val === 'prev') {
-          if (currentImage > 0) {
-              currentImage--;
-          } else {
-              currentImage = numberOfImages - 1;
-          }
-      } else if (val === 'next') {
-          if (currentImage < numberOfImages - 1) {
-              currentImage++;
-          } else {
-              currentImage = 0;
+      for (var j = 0; j < childNodes.length; j++) {
+          var currentNode = childNodes[j];
+          if (currentNode.nodeName === 'IMG') {
+              imagesArray[i].push(currentNode.src);
+              currentNode.classList.add('hide');
           }
       }
-      imagesWrapper[0].classList.add('fade-out');
-      imagesWrapper[0].style.backgroundImage = 'url(' + imagesArray[currentImage] + ')';
-      imagesWrapper[0].classList.remove('fade-out');
+
+      numberOfImages[i] = imagesArray[i].length;
+
+  imagesWrapper[i].style.backgroundImage = 'url(' + imagesArray[i][0] + ')';
   }
 
+  var currentImage = [];
+//  var cur=[];
+
+  for (var i=0; i<carousel.length; i++){
+
+      currentImage[i] = 0;
+//      cur[i] = i;
+
+      prevArrow[i].addEventListener('click', function (e) {
+          handleSlideshowArrow('prev', this.parentNode.parentNode.getAttribute('index'));
+      });
+
+      nextArrow[i].addEventListener('click',  function (e) {
+          handleSlideshowArrow('next', this.parentNode.parentNode.getAttribute('index'));
+      });
+  }
+
+  function handleSlideshowArrow(val, i) {
+        if (val === 'prev') {
+            if (currentImage[i] > 0) {
+                currentImage[i]--;
+            } else {
+                currentImage[i] = numberOfImages[i] - 1;
+            }
+        } else if (val === 'next') {
+            if (currentImage[i] < numberOfImages[i] - 1) {
+                currentImage[i]++;
+            } else {
+                currentImage[i] = 0;
+            }
+        }
+        imagesWrapper[i].classList.add('fade-out');
+        imagesWrapper[i].style.backgroundImage = 'url(' + imagesArray[i][currentImage[i]] + ')';
+        imagesWrapper[i].classList.remove('fade-out');
+    }
 
   var addToCart = document.getElementsByClassName('add-to-cart-button');
 
@@ -262,7 +298,7 @@ var plus = document.getElementsByClassName('plus');
       var li = document.createElement('li');
       li.setAttribute('id',val);
       var h3 = document.createElement('h3');
-      h3.innerHTML = productName+'<br/>'+'<span class="item-prices" id="price_'+val+'">' + price+'</span>&nbsp;<span class="glyphicon glyphicon-remove"></span>';
+      h3.innerHTML = productName+'<br/>'+'<span class="item-prices" id="price_'+val+'">'+price+'<span>';
       var span = document.createElement('span');
       span.setAttribute('class',"item-quantities");
       span.setAttribute('id',"qty_"+val);

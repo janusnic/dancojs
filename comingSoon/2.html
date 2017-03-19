@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+<link rel="stylesheet" href="main.css"/>
+
+</head><body>
+
+<hr class="thinWide" />
+<div class="countdown">
+  <div>coming soon<br/>a very exciting website</div>
+  <canvas width="400" height="400" id="timer"></canvas>
+
+
+  <div><span id="days"></span> days <span id="hours"></span> hours <span id="minutes"></span> minutes <span id="seconds"></span> seconds</div>
+</div>
+
+<hr class="thinWide" />
+
+<footer>
+
+</footer>
+
+
+<script>
+
+window.onload = function() {
+
+var target_date = new Date("Aug 15, 2017").getTime();
+
+var days, hours, minutes, seconds;
+
+var $days = document.getElementById('days'),
+    $hours = document.getElementById('hours'),
+    $minutes = document.getElementById('minutes'),
+    $seconds = document.getElementById('seconds');
+
+    var center = 200,
+        canvas = document.getElementById('timer'),
+        ctx = canvas.getContext("2d"),
+        daySetup = {
+            radius:170,
+            lineWidth:30,
+
+            color:"#ED303C ",
+            counter:0,
+            old:0
+        },
+        hourSetup = {
+            radius:130,
+            lineWidth:30,
+
+            color:"#F5634A ",
+            counter:0,
+            old:0
+        },
+        minSetup = {
+            radius:90,
+            lineWidth:30,
+
+            color:"#FF9C5B",
+            counter:0,
+            old:0
+        },
+        secSetup = {
+            radius:50,
+            lineWidth:30,
+
+            color:"#FAD089",
+            counter:0,
+            old:0
+        },
+
+        check = function(count, setup, ctx) {
+            if (count < setup.old){
+              setup.counter++
+            }
+            draw(setup.radius, setup.color, setup.lineWidth, count, ctx);
+        },
+
+        draw = function(radius, color, lineWidth, count, ctx) {
+            ctx.beginPath();
+            ctx.arc(center, center, radius, 0, count * Math.PI, false);
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        };
+
+
+setInterval(function () {
+    canvas.width = canvas.width;
+
+    ctx.beginPath();
+    ctx.arc(center, center, 50, 0, 2 * Math.PI, false);
+    ctx.lineWidth = 30,
+    ctx.strokeStyle = '#aaa';
+    ctx.stroke();
+
+    var current_date = new Date().getTime();
+
+    var seconds_left = (target_date - current_date) / 1000;
+
+    days = parseInt(seconds_left / 86400);
+    seconds_left = seconds_left % 86400;
+
+    hours = parseInt(seconds_left / 3600);
+    seconds_left = seconds_left % 3600;
+
+    minutes = parseInt(seconds_left / 60);
+    seconds = parseInt(seconds_left % 60);
+
+    $days.innerHTML=days;
+    $hours.innerHTML=hours;
+    $minutes.innerHTML=minutes;
+    $seconds.innerHTML=seconds;
+
+    var dayCount = (2 / 360) * days,
+      hourCount = (2 / 24) * hours,
+      minCount = (2 / 60) * minutes,
+      secCount = (2 / 60) * seconds;
+
+    check(secCount, secSetup, ctx);
+    check(minCount, minSetup, ctx);
+    check(hourCount, hourSetup, ctx);
+    check(dayCount, daySetup, ctx);
+
+    secSetup.old = secCount - 0.01;
+    minSetup.old = minCount - 0.01;
+    hourSetup.old = hourCount - 0.01;
+    daySetup.old = dayCount - 0.01;
+
+}, 1000);
+}
+
+
+
+</script>
+</body></html>
