@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Gravity</title>
+        <link href="main.css" rel="stylesheet" />
+    </head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+window.onload = function() {
+
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+var width = canvas.width = window.innerWidth;
+var height = canvas.height = window.innerHeight;
+
+function loadImage(url){
+    var img = new Image();
+    img.src=url;
+    return img;
+}
+
+var earth={
+    x:width/2-150,
+    y:height/2-150,
+    width:300,
+    height:300,
+    currentX :0,
+    currentY :-10,
+    img : loadImage("earth.png"),
+    alphatop:0
+};
+
+function drawScreen(){
+    var size = 50;
+	var headFontName = "Lucida Sans Unicode";
+	context.font = size + "pt " + headFontName;
+    context.textAlign = 'center';
+    context.fillText("HELLO  WORLD!", width/2,150 );
+
+    if(earth.alphatop < 1){
+		earth.alphatop += 0.01;
+		}else{
+		earth.alphatop = 1;
+	}
+    context.globalAlpha = earth.alphatop;
+    context.drawImage(earth.img,earth.x,earth.y);
+
+}
+
+function update(){
+    context.clearRect(0,0,width,height);
+    drawScreen();
+    requestAnimationFrame(update);
+}
+update();
+
+}
+</script>
+
+</body></html>

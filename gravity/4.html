@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Gravity</title>
+        <link href="main.css" rel="stylesheet" />
+    </head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+window.onload = function() {
+
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+var width = canvas.width = window.innerWidth;
+var height = canvas.height = window.innerHeight;
+
+function loadImage(url){
+    var img = new Image();
+    img.src=url;
+    return img;
+}
+
+var earth={
+    x:width/2-150,
+    y:height/2-150,
+    width:300,
+    height:300,
+    currentX :0,
+    currentY :-10,
+    img : loadImage("earth.png"),
+    alphatop:0
+};
+
+function drawScreen(){
+    var size = 50;
+	var headFontName = "Lucida Sans Unicode";
+	context.font = size + "pt " + headFontName;
+    context.textAlign = 'center';
+    context.fillText("HELLO  WORLD!", width/2,150 );
+
+    if(earth.alphatop < 1){
+		earth.alphatop += 0.01;
+		}else{
+		earth.alphatop = 1;
+	}
+
+    context.globalAlpha = earth.alphatop;
+    context.drawImage(earth.img,earth.x,earth.y);
+
+	if(earth.alphatop === 1){
+    earth.currentY*= 0.999;
+	earth.currentY += 0.3;
+
+    earth.x += earth.currentX;
+    earth.y += earth.currentY;}
+
+	if(earth.y + earth.height > height){
+	earth.anglespin = 0;
+	earth.y = height - earth.height;
+	earth.currentY *= -0.8;
+	earth.currentX *= 0.9;
+	};
+	context.globalAlpha = 1;
+}
+
+function update(){
+    context.clearRect(0,0,width,height);
+    drawScreen();
+    requestAnimationFrame(update);
+}
+update();
+
+}
+</script>
+
+</body></html>
